@@ -1,0 +1,20 @@
+html, body{
+    margin: 0;
+    padding: 0;
+}
+
+// Override
+*{
+    font-family: 'Century Gothic';
+}
+.app-main{
+    height: 100vh;
+    background: #fff;
+
+    // Layout
+    display: grid;
+    place-items: center;
+
+    @import './core/index.module.scss';
+   
+}

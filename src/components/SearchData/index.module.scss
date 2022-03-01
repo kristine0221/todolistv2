@@ -1,0 +1,23 @@
+.inputSearchFieldContainer{
+    display: flex;
+    flex-wrap: wrap;
+}
+.inputSearchFieldWrapper{
+    position: relative;
+}
+.inputTxt {
+    width: 100%;
+    display: block;
+    top: -3em;
+    align-items: center;
+    
+}
+.iconSearchWrapper{
+    position: absolute;
+    padding-left: 160px;
+}
+.iconSearch{
+    position: absolute;
+    z-index: 999;
+    margin-top: 7px;
+}

@@ -1,0 +1,33 @@
+.editBtn{
+    color: #000!important;
+    background-color: transparent!important;
+    border: none!important;
+    padding: none!important;
+}
+.deleteBtn{
+    color: #000!important;
+    background-color: transparent!important;
+    border: none!important;
+    padding: none!important;
+}
+.editIcon{
+    padding-right: 5px;
+
+}
+.deleteIcon{
+    padding-right: 5px;
+}
+//  
+.upArrIcon .downArrIcon{
+    position: absolute;
+    top: 47px;
+    right: 195px;
+}
+.tableHeader {
+    display: flex;
+}
+
+.upDownArrowIconWrapper {
+    display: flex;
+    flex-direction: column;
+}

@@ -8,18 +8,22 @@ import { Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import styles from './index.module.scss'
+import SuccessAddModalMsg from '../components/SuccessAddModalMsg'
 
 
-const Home = () => {
-  const [show, setShow] = useState(false);
-  const handleClose = () => setShow(true);
+const Home = (props) => {
+  // const { status, setStatus } = props;
+
+  const [addModalVisible, setAddModalVisible] = useState(false);
+  const handleClose = () => setAddModalVisible(true);
 
   const [todolist, setTodolist] = useState([])
   const [updateData, setUpdateData] = useState(null)
   const [isUpdateModalShow, setIsUpdateModalShow] = useState(false)
   const [filteredTodoList, setFilteredTodoList] = useState([])
-
   const [searchKeyword, setSearchKeyword] = useState("")
+  const [statusKeyword, setStatusKeyword] = useState('')
+  const [toasterVisible, setToasterVisible] = useState(false)
 
   useEffect(() => {
     const getTodolist = async () => {
@@ -53,7 +57,8 @@ const Home = () => {
     })
     const data = await res.json()
     setTodolist([...todolist, data])
-    setShow(false)
+    setAddModalVisible(false)
+    setToasterVisible(true)
   }
 
   //Delete todos
@@ -81,29 +86,21 @@ const Home = () => {
       }
       return todo
     })])
-    setShow(false)
+    setAddModalVisible(false)
   }
 
-  //search todos
-  //  const searchTodoList = async (todoTitle, todoDescription) => {
-  //   const res = await fetch('http://localhost:5000/todolist?todoTitle=${todoTitle}&todoDescription=${{', {
-  //     method: 'GET',
-  //     headers: {
-  //       'Content-type': 'application/json',
-  //     },
-  //     body: JSON.stringify(todos),
-  //   })
-  //   const data = await res.json()
-  //   setSearch(res.data)
-  // }
-
+  //search on input (onchange)
   const setSearch = (keyword) => {
     setSearchKeyword(keyword)
     //todo list filter
     // set state ng todo list
     const searchResults = todolist.filter((todo) => {
-      const { title, description } = todo;
-      if (title.toLowerCase().includes(keyword.toLowerCase()) || description.toLowerCase().includes(keyword.toLowerCase())) {
+      const { title, description, status } = todo;
+      if (
+        title.toLowerCase().includes(keyword.toLowerCase())
+        || description.toLowerCase().includes(keyword.toLowerCase())
+
+      ) {
         return todo;
       }
       return null
@@ -112,37 +109,62 @@ const Home = () => {
     setFilteredTodoList(searchResults)
   }
 
+  // search handle select for status change
+  const searchByStatus = (event) => {
+    const value = event.target.value
+    let searchResults = []
+    if (value === 'ALL') {
+      searchResults = todolist
+    } else {
+      searchResults = todolist.filter((todo) => todo.status === value)
+    }
+    setFilteredTodoList(searchResults)
+  }
+
+
   const handleOnSort = (sortedData) => {
     setFilteredTodoList(sortedData)
   }
 
-  console.log({ filteredTodoList })
+  const handleOnToastClose = () => {
+    setToasterVisible(false)
+  }
 
   return (
     <div className={styles.homeMain}>
-      <Button onClick={handleClose}>Add Item</Button>
-      {show &&
+      <div className={styles.filterSection}>
+        <Button className={styles.addBtn} onClick={handleClose}>Add Item</Button>
+        <SearchData
+          searchKeyword={searchKeyword}
+          setSearch={setSearch}
+          // setStatus={setStatus}
+          handleSelect={searchByStatus}
+        />
+      </div>
+
+      <TodolistTable
+        todolist={filteredTodoList}
+        onDelete={deleteTodo}
+        setIsUpdateModalShow={setAddModalVisible}
+        setUpdateData={setUpdateData}
+        isSearching={searchKeyword.length}
+        handleOnSort={handleOnSort}
+      />
+
+
+
+      {addModalVisible &&
         <AddModal
-          show={show}
-          setShow={setShow}
+          show={addModalVisible}
+          setShow={setAddModalVisible}
           addTodoList={addTodoList}
           onUpdate={updateTodo}
           updateData={updateData}
           setUpdateData={setUpdateData}
         />
       }
-      <SearchData
-        searchKeyword={searchKeyword}
-        setSearch={setSearch}
-      />
-      <TodolistTable
-        todolist={filteredTodoList}
-        onDelete={deleteTodo}
-        setIsUpdateModalShow={setShow}
-        setUpdateData={setUpdateData}
-        isSearching={searchKeyword.length}
-        handleOnSort={handleOnSort}
-      />
+      <SuccessAddModalMsg show={toasterVisible} onToastClose={handleOnToastClose} />
+
     </div>
   )
 }

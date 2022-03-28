@@ -1,3 +1,15 @@
 .homeMain{
-    border: 5px solid gray;
+    // border: 5px solid gray;
+    // position: absolute;
+    padding: 24px;
+}
+.addBtn{
+    padding: 0px!important;
+    margin-bottom: 6px!important;
+    width: 90px!important;
+}
+
+.filterSection {
+    display: flex;
+    justify-content: space-between;
 }

@@ -4,13 +4,12 @@ import styles from './index.module.scss'
 
 
 const SearchData = (props) => {
-    const { setSearch, searchKeyword } = props;
-    // const[search, setSearch] = useState("")
-
+    const { setSearch, searchKeyword, handleSelect} = props;
+  
     return (
         <div className={styles.inputSearchFieldContainer}>
-            <select id="all">
-                <option value="">ALL</option>
+            <select onChange={handleSelect}>
+                <option value="ALL">ALL</option>
                 <option value="Pending">Pending</option>
                 <option value="Completed">Completed</option>
                 <option value="Expired">Expired</option>

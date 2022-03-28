@@ -5,6 +5,8 @@ import { GrEdit } from 'react-icons/gr';
 import { TiDelete } from 'react-icons/ti';
 import { BiDownArrow, BiUpArrow } from 'react-icons/bi';
 
+import styles from './index.module.scss'
+
 import DeleteModal from '../DeleteModal'
 import AddModal from '../AddModal'
 
@@ -47,119 +49,114 @@ const TodolistTable = (props) => {
     //sorting asc
     const ascId = (sortType) => {
         let sortedTodolist = [];
-        if(sortType === 'id') {
+        if (sortType === 'id') {
             console.log(1)
             sortedTodolist = [...todolist].sort((a, b) => {
                 return a.id - b.id
             })
         }
-        if (sortType === 'title'){
+        if (sortType === 'title') {
             console.log(2)
             sortedTodolist = [...todolist].sort((a, b) => {
-                if ( a.title < b.title ){
+                if (a.title < b.title) {
                     return -1;
-                  }
-                  if ( a.title > b.title ){
+                }
+                if (a.title > b.title) {
                     return 1;
-                  }
-                  return 0;
+                }
+                return 0;
             })
         }
-        if (sortType === 'description'){
+        if (sortType === 'description') {
             console.log(3)
-             sortedTodolist = [...todolist].sort((a, b) => {
-                if ( a.description < b.description ){
+            sortedTodolist = [...todolist].sort((a, b) => {
+                if (a.description < b.description) {
                     return -1;
-                  }
-                  if ( a.description > b.description ){
+                }
+                if (a.description > b.description) {
                     return 1;
-                  }
-                  return 0;
+                }
+                return 0;
             })
         }
-       if (sortType === 'dateTimeStart'){
-        sortedTodolist = [...todolist].sort((a, b) => {
-            if ( a.dateTime.start < b.dateTime.start ){
-                return -1;
-              }
-              if ( a.dateTime.start > b.dateTime.start ){
-                return 1;
-              }
-              return 0;
-        })
-        }
-        if (sortType === 'status'){
-             sortedTodolist = [...todolist].sort((a, b) => {
-                if ( a.status < b.status ){
+        if (sortType === 'dateTimeStart') {
+            sortedTodolist = [...todolist].sort((a, b) => {
+                if (a.dateTime.start < b.dateTime.start) {
                     return -1;
-                  }
-                  if ( a.status > b.status ){
+                }
+                if (a.dateTime.start > b.dateTime.start) {
                     return 1;
-                  }
-                  return 0;
+                }
+                return 0;
             })
         }
-
+        if (sortType === 'status') {
+            sortedTodolist = [...todolist].sort((a, b) => {
+                if (a.status < b.status) {
+                    return -1;
+                }
+                if (a.status > b.status) {
+                    return 1;
+                }
+                return 0;
+            })
+        }
         handleOnSort(sortedTodolist)
-        // setFilteredTodoList(sortedTodolist)
     }
 
     //sortDesc
     const descId = (sortType) => {
         let sortedTodolist = [];
-        if(sortType === 'id') {
-             sortedTodolist = [...todolist].sort((a, b) => {
+        if (sortType === 'id') {
+            sortedTodolist = [...todolist].sort((a, b) => {
                 return b.id - a.id
             })
         }
-        if(sortType === 'title') {
-             sortedTodolist = [...todolist].sort((a, b) => {
-                if ( a.title > b.title ){
+        if (sortType === 'title') {
+            sortedTodolist = [...todolist].sort((a, b) => {
+                if (a.title > b.title) {
                     return -1;
-                  }
-                  if ( a.title < b.title ){
+                }
+                if (a.title < b.title) {
                     return 1;
-                  }
-                  return 0;
+                }
+                return 0;
             })
         }
-        if(sortType === 'description') {
-             sortedTodolist = [...todolist].sort((a, b) => {
-                if ( a.description > b.description ){
+        if (sortType === 'description') {
+            sortedTodolist = [...todolist].sort((a, b) => {
+                if (a.description > b.description) {
                     return -1;
-                  }
-                  if ( a.description < b.description ){
+                }
+                if (a.description < b.description) {
                     return 1;
-                  }
-                  return 0;
+                }
+                return 0;
             })
         }
-        if(sortType === 'dateTimeStart') {
-             sortedTodolist = [...todolist].sort((a, b) => {
-                if ( a.dateTime.start > b.dateTime.start ){
+        if (sortType === 'dateTimeStart') {
+            sortedTodolist = [...todolist].sort((a, b) => {
+                if (a.dateTime.start > b.dateTime.start) {
                     return -1;
-                  }
-                  if ( a.dateTime.start < b.dateTime.start ){
+                }
+                if (a.dateTime.start < b.dateTime.start) {
                     return 1;
-                  }
-                  return 0;
+                }
+                return 0;
             })
         }
-        if(sortType === 'status') {
-             sortedTodolist = [...todolist].sort((a, b) => {
-                if ( a.status > b.status ){
+        if (sortType === 'status') {
+            sortedTodolist = [...todolist].sort((a, b) => {
+                if (a.status > b.status) {
                     return -1;
-                  }
-                  if ( a.status < b.status ){
+                }
+                if (a.status < b.status) {
                     return 1;
-                  }
-                  return 0;
+                }
+                return 0;
             })
         }
-        
-        
         handleOnSort(sortedTodolist)
-        // setFilteredTodoList(sortedTodolist)
     }
 
     const renderTodoList =
@@ -172,8 +169,15 @@ const TodolistTable = (props) => {
                     <td><p>{todo.dateTime.start}</p><p>{todo.dateTime.end}</p></td>
                     <td>{todo.status}</td>
                     <td>
-                        <Button onClick={() => handleOnClickEdit(todo.id)}><GrEdit />Edit</Button>/
-                        <Button onClick={() => handleIsDeleteModalShow(todo.id)}><TiDelete />Delete</Button>
+                        <Button
+                            className={styles.editBtn} onClick={() => handleOnClickEdit(todo.id)}>
+                            <GrEdit className={styles.editIcon} />Edit
+                        </Button>/
+                        <Button
+                            className={styles.deleteBtn}
+                            onClick={() => handleIsDeleteModalShow(todo.id)}>
+                            <TiDelete className={styles.deleteIcon} />Delete
+                        </Button>
                     </td>
                 </tr>
             )
@@ -181,14 +185,49 @@ const TodolistTable = (props) => {
 
     return (
         <div>
-            <Table striped bordered hover>
+            <Table className={styles.todoListTable} striped bordered hover>
                 <thead>
                     <tr>
-                        <th>ID<BiUpArrow onClick={() => ascId('id')} /><BiDownArrow onClick={() => descId('id')} /></th>
-                        <th>Title<BiUpArrow onClick={() => ascId('title')} /><BiDownArrow onClick={() => descId('title')} /></th>
-                        <th>Description<BiUpArrow onClick={() => ascId('description')} /><BiDownArrow onClick={() => descId('description')} /></th>
-                        <th>Date &amp; Time<BiUpArrow onClick={() => ascId('dateTimeStart')} /><BiDownArrow onClick={() => descId('dateTimeStart')} /></th>
-                        <th>Status<BiUpArrow onClick={() => ascId('status')} /><BiDownArrow onClick={() => descId('status')} /></th>
+                        <th>
+                            <div className={styles.tableHeader}>ID
+                                <div className={styles.upDownArrowIconWrapper}>
+                                    <BiUpArrow className={styles.upArrIcon} onClick={() => ascId('id')} />
+                                    <BiDownArrow className={styles.downArrIcon} onClick={() => descId('id')} />
+                                </div>
+                            </div>
+                        </th>
+                        <th>
+                            <div className={styles.tableHeader}>Title
+                                <div className={styles.upDownArrowIconWrapper}>
+                                    <BiUpArrow className={styles.upArrIcon} onClick={() => ascId('title')} />
+                                    <BiDownArrow className={styles.downArrIcon} onClick={() => descId('title')} />
+                                </div>
+                            </div>
+                        </th>
+                        <th>
+                            <div className={styles.tableHeader}>Description
+                                <div className={styles.upDownArrowIconWrapper}>
+                                    <BiUpArrow className={styles.upArrIcon} onClick={() => ascId('description')} />
+                                    <BiDownArrow className={styles.downArrIcon} onClick={() => descId('description')} />
+                                </div>
+                            </div>
+                        </th>
+                        <th>
+                            <div className={styles.tableHeader}>Date &amp; Time
+                                <div className={styles.upDownArrowIconWrapper}>
+                                    <BiUpArrow className={styles.upArrIcon} onClick={() => ascId('dateTimeStart')} />
+                                    <BiDownArrow className={styles.downArrIcon} onClick={() => descId('dateTimeStart')} />
+                                </div>
+                            </div>
+                        </th>
+                        <th>
+                            <div className={styles.tableHeader}>Status
+                                <div className={styles.upDownArrowIconWrapper}>
+                                    <BiUpArrow className={styles.upArrIcon} onClick={() => ascId('status')} />
+                                    <BiDownArrow className={styles.downArrIcon} onClick={() => descId('status')} />
+                                </div>
+                            </div>
+                        </th>
                         <th>Action</th>
                     </tr>
                 </thead>
